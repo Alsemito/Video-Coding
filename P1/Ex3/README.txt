@@ -1,0 +1,1 @@
+lenna_bw is the one where the desaturation is performed
