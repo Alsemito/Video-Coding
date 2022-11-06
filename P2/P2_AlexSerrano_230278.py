@@ -41,6 +41,11 @@ def create_new_container(inPath: str):
     # We are now set with a video file without audio, and two audio files. Let us proceed to wrap them all up
     os.system("ffmpeg -i 1min.mp4 -i 1min_audio.mp3 -i 1min_audio.aac \
        -map 0 -map 1 -map 2 -codec copy newContainer.mp4")
+
+    # Delete all the extra files once the container has been created
+    os.remove("1min.mp4")
+    os.remove("1min_audio.aac")
+    os.remove("1min_audio.mp3")
     return -1
 
 
@@ -65,18 +70,35 @@ class Audio(Exercise3):
 
 
 def broadcast_info(inPath: str):
+    # Create a text file to parse the information of the codec(s) and extract its name(s)
     txt = open("info.txt", "w")
     subprocess.run("ffprobe -v error -select_streams a -show_entries stream=codec_name -of "
                    "default=noprint_wrappers=1 " + inPath, shell=True, stdout=txt)
     txt.close()
 
+    # Create a list and fill it with such names
     with open("info.txt") as f:
-        types = [line.rstrip() for line in f]
+        names = [line.rstrip() for line in f]
+    os.remove("info.txt")
 
-    for i in range(len(types)):
-        types[i] = types[i].split("=")[1]
+    # Modify the list so that we are left with the name only (instead of the previous codec_name=...)
+    for i in range(len(names)):
+        names[i] = names[i].split("=")[1]
 
-    print(types)
+    # Create a list for every broadcast standard with their accepted audio formats
+    dvb = ['aac', 'ac3', 'mp3']
+    isdb = ['aac']
+    atsc = ['ac3']
+    dtmb = ['dra', 'aac', 'ac3', 'mp2', 'mp3']
+    names_list = ['DVB-T', 'ISDB-T', 'ATSC', 'DTMB']
+    stds_list = [dvb, isdb, atsc, dtmb]
+
+    # Now we can finally check in which broadcast standards the video can be in
+    print('\nYour video can fit in the following standards:')
+    for i in range(len(stds_list)):
+        if all(elem in stds_list[i] for elem in names):
+            print(names_list[i])
+    return -1
 
 
 # Press the green button in the gutter to run the script.
@@ -91,6 +113,7 @@ if __name__ == '__main__':
                                    "2 - Create a new container\n"
                                    "3 - Resize your file\n"
                                    "4 - Show in which broadcast standard your video can fit, depending on its audio\n"
+                                   "5 - Exit\n"
                                    ""))
             case 1:
                 user_in1 = str(input("\nEnter the path of the video file (container) with its extension (e.g. .mp4): "))
@@ -142,3 +165,6 @@ if __name__ == '__main__':
                 user_in4 = str(input("\nEnter the path of the video file with its extension (e.g. .mp4): "))
                 broadcast_info(user_in4)
                 option = 0
+
+            case default:
+                sys.exit()
