@@ -1,1 +1,9 @@
 The VP8 successor VP9 provides better video quality at a lower bitrate
+
+For 160x120p, the webm files are heavier. There is no visually perceivable difference between the codecs as the quality is very low. Between the ones that take less storage, H.265 is faster to convert, hence this may be the better option for these qualities.
+
+For 360x240p, we can perceive a better quality when comparing vp8 and vp9, since vp9 provides a better video quality at a lower bitrate, hence being a better option (even though it takes a bit more to convert and takes more space). I don't perceive any big differences visually in the rest of them.
+
+For 480p, they seem to take up more or less the same space. We can see that vp8 has the worst performance, and av1 starts to take so much time when converting. Hence I would say that H.265 and vp9 stay a good option for this quality (H.265 may requires a codec that not everybody might have in their computer).
+
+For 720p, converting to av1 is a big pain in you know where. We can see that vp8 does not get to the quality that the other codecs achieve. Between the other three, in terms of quality I would say they are very similar, but H.265 is the one that is faster to convert to and takes less space. 

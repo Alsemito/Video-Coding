@@ -1,10 +1,9 @@
 import os
-import ffmpeg
+import sys
 
 
 def video_scaler(inPath: str):
-    # Apply only one at a time so that the process is not always resizing 4 videos
-
+    # Resizes the input video to all the resolutions needed
     os.system("ffmpeg -i " + inPath + " -vf scale=1280:720 -c:a copy BBB_720p.mp4")
     os.system("ffmpeg -i " + inPath + " -vf scale=640:480 -c:a copy BBB_480p.mp4")
     os.system("ffmpeg -i " + inPath + " -vf scale=360:240 -c:a copy BBB_360x240p.mp4")
@@ -14,7 +13,7 @@ def video_scaler(inPath: str):
 
 
 def video_converter(inPath: str):
-
+    # Converts the input video to all the codecs needed
     os.system("ffmpeg -i " + inPath + " -c:v libvpx -c:a libvorbis vp8.webm")  # VP8
     os.system("ffmpeg -i " + inPath + " -c:v libvpx-vp9 -c:a libvorbis vp9.webm")  # VP9
     os.system("ffmpeg -i " + inPath + " -c:v libx265 -c:a ac3 -b:a 256k h265.mp4")  # H.265
@@ -22,12 +21,13 @@ def video_converter(inPath: str):
 
 
 def create4video():
-
+    # Creates the video with the 4 videos so that we can compare them
     os.system("ffmpeg -i vp8.webm -i vp9.webm -filter_complex hstack output.mp4")
     os.system("ffmpeg -i h265.mp4 -i av1.mkv -filter_complex hstack output2.mp4")
     os.system("ffmpeg -i output.mp4 -i output2.mp4 -filter_complex vstack 4stack.mp4")
     os.remove("output.mp4")
     os.remove("output2.mp4")
+
 
 loop = 1
 if __name__ == '__main__':
@@ -40,7 +40,10 @@ if __name__ == '__main__':
                                    '1 - Resize the input video to 720p, 480p, 360x240 and 160x120\n'
                                    '2 - Convert to different video codecs\n'
                                    '3 - Create the video with 4 videos\n'
+                                   '4 - Execute the Visual Interface\n'
+                                   '5 -  Exit\n'
                                    ''))
+            # Cases 1 to 3 are to get the "mandanga" in order to create the videos for the first part of the seminar
             case 1:
                 user_in1 = str(input("Enter the name of the video (with its extension, e.g. .mp4): "))
                 video_scaler(user_in1)
@@ -55,7 +58,11 @@ if __name__ == '__main__':
                 create4video()
                 option = 0
 
+            # Case 4 is to call the visual interface
             case 4:
                 import VisualInterface
-                VisualInterface.window()
+                option = 0
+
+            case default:
+                sys.exit()
 

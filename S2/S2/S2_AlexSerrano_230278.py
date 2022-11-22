@@ -6,7 +6,7 @@ import subprocess
 def cutN_video(inPath: str, n1: int, n2: int, outPath: str):
     # Command to cut the specified video. n1 is the second (s) from the original video that is going to be the start
     # of the new one, and n2 is the length of the new video
-    os.system("ffmpeg -i " + inPath + " -ss " + str(n1) + " -t " + str(n2) + " -async 1 " + outPath)
+    os.system("ffmpeg -i " + inPath + " -ss " + str(n1) + " -t " + str(n2) + " -c:a ac3 " + outPath)
     return
 
 
