@@ -1,5 +1,5 @@
 import os
-import sys
+import ffmpeg
 
 
 def video_scaler(inPath: str):
@@ -22,12 +22,12 @@ def video_converter(inPath: str):
 
 
 def create4video():
-    #ffmpeg -i input.m2ts -filter_complex "[0]crop=iw/2:ih:0:0[left];[0]crop=iw/2:ih:ow:0[right]"
-    # -map "[left]" -map "[right]" -map 0:a output.mp4
 
     os.system("ffmpeg -i vp8.webm -i vp9.webm -filter_complex hstack output.mp4")
     os.system("ffmpeg -i h265.mp4 -i av1.mkv -filter_complex hstack output2.mp4")
     os.system("ffmpeg -i output.mp4 -i output2.mp4 -filter_complex vstack 4stack.mp4")
+    os.remove("output.mp4")
+    os.remove("output2.mp4")
 
 loop = 1
 if __name__ == '__main__':
@@ -54,4 +54,8 @@ if __name__ == '__main__':
             case 3:
                 create4video()
                 option = 0
+
+            case 4:
+                import VisualInterface
+                VisualInterface.window()
 
