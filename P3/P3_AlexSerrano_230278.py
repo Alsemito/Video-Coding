@@ -1,7 +1,9 @@
 import os
+import sys
 
 
 def hls_container(inPath: str):
+    # Creates the HLS container following this page https://ottverse.com/hls-packaging-using-ffmpeg-live-vod/
     os.system('ffmpeg -i ' + inPath + ' \
               -filter_complex \
               "[0:v]split=3[v1][v2][v3]; \
@@ -28,16 +30,27 @@ def hls_container(inPath: str):
               -var_stream_map "v:0,a:0 v:1,a:1 v:2,a:2" stream_%v.m3u8')
 
 
-def fragment(inPath:str):
+def info(inPath:str):
+    # Show video information to check if the video needs to be segmented or not
     os.system("mp4info " + inPath)
+
+
+def fragment(inPath:str):
+    # Fragment the video so that we can create the MPD file
+    os.system("mp4fragment --fragment-duration 2000 " + inPath + " fragmented_video.mp4")
+
+
+
+def mpd():
+    # Create the encrypted MPD file (We are just doing it for the BBB video in this case)
+    os.system("mp4dash --mpd-name myvideo.mpd --encryption-key=" 
+              "121a0fca0f1b475b8910297fa8e0a07e:a0a1a2a3a4a5a6a7a8a9aaabacadaeaf "
+              "--use-segment-timeline BBB_1080p_frag.mp4 BBB_720p_frag.mp4 BBB_360p_frag.mp4")
 
 
 
 def live_stream(inPath: str):
-    # os.system("BBB.mp4")
-    # os.system("ffmpeg -i " + inPath + " -preset ultrafast -vcodec libx264 -tune zerolatency -b 900k "
-    #  "-f mpegts udp://192.168.1.100:5555")
-    os.system("ffmpeg -re -i " + inPath + " -c:v libx264 -c:a aac -f flv udp://192.168.1.22:9999")
+    os.system("ffmpeg -re -i " + inPath + " -c copy -f mpegts udp://192.168.2.10:1234")
 
 
 loop = 1
@@ -50,9 +63,11 @@ if __name__ == '__main__':
             case 0:
                 option = int(input('\n0 - Navigate by typing the number of the exercise:\n'
                                    '1 - Create an HLS transport stream container\n'
-                                   '2 - MPD video file\n'
-                                   '3 - Live stream a video\n'
-                                   ''))
+                                   '2 - Display the information of your video (maybe to see if it needs fragmentation)\n'
+                                   '3 - Fragment your video\n'
+                                   '4 - Create the encrypted MPD file\n'
+                                   '5 - Livestream your video\n'
+                                   '6 - Exit\n'))
 
             case 1:
                 user_in1 = str(input("Enter the name of the video (with its extension, e.g. .mp4): "))
@@ -60,9 +75,24 @@ if __name__ == '__main__':
                 option = 0
 
             case 2:
-                fragment("BBB.mp4")
+                user_in2 = str(input("Enter the name of the video (with its extension, e.g. .mp4): "))
+                info(user_in2)
                 option = 0
 
             case 3:
-                live_stream("BBB.mp4")
+                user_in3 = str(input("Enter the name of the video (with its extension, e.g. .mp4): "))
+                fragment(user_in3)
                 option = 0
+
+            case 4:
+                mpd()
+                option = 0
+
+            case 5:
+                user_in5 = str(input("Enter the name of the video (with its extension, e.g. .mp4): "))
+                live_stream(user_in5)
+                option = 0
+
+            case default:
+                sys.exit()
+

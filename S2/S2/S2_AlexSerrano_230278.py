@@ -27,9 +27,9 @@ def video_scaler(inPath: str):
                        ""))
     # Apply only one at a time so that the process is not always resizing 4 videos
     if choice == 1:
-        os.system("ffmpeg -i " + inPath + " -vf scale=1280:720 output_720p.mp4")
+        os.system("ffmpeg -i " + inPath + " -vf scale=1280:720 -c:a ac3 output_720p.mp4")
     elif choice == 2:
-        os.system("ffmpeg -i " + inPath + " -vf scale=640:480 output_480p.mp4")
+        os.system("ffmpeg -i " + inPath + " -vf scale=640:480 -c:a ac3 output_480p.mp4")
     elif choice == 3:
         os.system("ffmpeg -i " + inPath + " -vf scale=360:240 output_360x240p.mp4")
     elif choice == 4:

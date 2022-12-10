@@ -1,0 +1,62 @@
+<?xml version="1.0" ?>
+<MPD xmlns:cenc="urn:mpeg:cenc:2013" xmlns="urn:mpeg:dash:schema:mpd:2011" profiles="urn:mpeg:dash:profile:isoff-live:2011" minBufferTime="PT2.00S" mediaPresentationDuration="PT1M0.083S" type="static">
+  <!-- Created with Bento4 mp4-dash.py, VERSION=2.0.0-639 -->
+  <Period>
+    <!-- Video -->
+    <AdaptationSet mimeType="video/mp4" segmentAlignment="true" startWithSAP="1" maxWidth="1920" maxHeight="1080">
+      <!-- MPEG Common Encryption -->
+      <ContentProtection schemeIdUri="urn:mpeg:dash:mp4protection:2011" value="cenc" cenc:default_KID="121a0fca-0f1b-475b-8910-297fa8e0a07e"/>
+      <SegmentTemplate timescale="12288" initialization="$RepresentationID$/init.mp4" media="$RepresentationID$/seg-$Number$.m4s" startNumber="1">
+        <SegmentTimeline>
+          <S d="24576" r="29"/>
+          <S d="1024"/>
+        </SegmentTimeline>
+      </SegmentTemplate>
+      <Representation id="video/avc1/1" codecs="avc1.640028" width="1920" height="1080" scanType="progressive" frameRate="24" bandwidth="4816778"/>
+      <Representation id="video/avc1/2" codecs="avc1.64001F" width="1280" height="720" scanType="progressive" frameRate="24" bandwidth="2153451"/>
+      <Representation id="video/avc1/3" codecs="avc1.64001E" width="640" height="360" scanType="progressive" frameRate="24" bandwidth="879015"/>
+    </AdaptationSet>
+    <!-- Audio -->
+    <AdaptationSet mimeType="audio/mp4" startWithSAP="1" segmentAlignment="true">
+      <!-- MPEG Common Encryption -->
+      <ContentProtection schemeIdUri="urn:mpeg:dash:mp4protection:2011" value="cenc" cenc:default_KID="121a0fca-0f1b-475b-8910-297fa8e0a07e"/>
+      <SegmentTemplate timescale="48000" initialization="$RepresentationID$/init.mp4" media="$RepresentationID$/seg-$Number$.m4s" startNumber="1">
+        <SegmentTimeline>
+          <S d="95232"/>
+          <S d="96768"/>
+          <S d="95232"/>
+          <S d="96768"/>
+          <S d="95232"/>
+          <S d="96768"/>
+          <S d="95232"/>
+          <S d="96768"/>
+          <S d="95232"/>
+          <S d="96768"/>
+          <S d="95232"/>
+          <S d="96768"/>
+          <S d="95232"/>
+          <S d="96768"/>
+          <S d="95232"/>
+          <S d="96768"/>
+          <S d="95232"/>
+          <S d="96768"/>
+          <S d="95232"/>
+          <S d="96768"/>
+          <S d="95232"/>
+          <S d="96768"/>
+          <S d="95232"/>
+          <S d="96768"/>
+          <S d="95232"/>
+          <S d="96768"/>
+          <S d="95232"/>
+          <S d="96768"/>
+          <S d="95232"/>
+          <S d="96768"/>
+        </SegmentTimeline>
+      </SegmentTemplate>
+      <Representation id="audio/und/ac-3" codecs="ac-3" bandwidth="453649" audioSamplingRate="48000">
+        <AudioChannelConfiguration schemeIdUri="urn:mpeg:mpegB:cicp:ChannelConfiguration" value="2"/>
+      </Representation>
+    </AdaptationSet>
+  </Period>
+</MPD>
