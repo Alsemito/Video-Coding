@@ -50,7 +50,8 @@ def mpd():
 
 
 def live_stream(inPath: str):
-    os.system("ffmpeg -re -i " + inPath + " -c copy -f mpegts udp://192.168.2.10:1234")
+    # Stream the video at 192.168.1.16 at port 1234
+    os.system("ffmpeg -re -i " + inPath + " -vcodec libx264 -f mpegts udp://192.168.1.16:1234")
 
 
 loop = 1
